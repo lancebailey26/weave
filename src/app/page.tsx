@@ -1,65 +1,83 @@
-import Image from "next/image";
+import { getDailyApprovedEvents } from "@/lib/get-random-approved-events";
+import { sortChronological } from "@/lib/sort-events-chronological";
+import { getEasternDateKey, seededShuffle } from "@/lib/shuffle";
+import {
+  AUTOPLACED_CHRONOLOGY_INDEX,
+  DAILY_WEAVE_EVENT_COUNT,
+  MAX_TRIES,
+} from "@/lib/weave-config";
 import styles from "./page.module.css";
+import Timeline from "@/components/timeline/timeline";
+import AppHeader from "@/components/appHeader/appHeader";
+import { cookies } from "next/headers";
+const DAILY_LOCK_COOKIE = "weave_daily_lock_v1";
+const DAILY_RESULT_COOKIE = "weave_daily_result_v1";
 
-export default function Home() {
+type InitialStoredResult = {
+  placements: (string | null)[];
+  triesLeft: number;
+};
+
+function parseStoredResultForDay(
+  raw: string | undefined,
+  dayKey: string,
+  expectedLength: number,
+): InitialStoredResult | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as {
+      date?: unknown;
+      placements?: unknown;
+      triesLeft?: unknown;
+    };
+    if (parsed.date !== dayKey) return null;
+    if (!Array.isArray(parsed.placements) || parsed.placements.length !== expectedLength) {
+      return null;
+    }
+    if (typeof parsed.triesLeft !== "number") return null;
+    if (parsed.placements.some((value) => value !== null && typeof value !== "string")) {
+      return null;
+    }
+    return {
+      placements: parsed.placements,
+      triesLeft: Math.max(0, Math.min(MAX_TRIES, Math.floor(parsed.triesLeft))),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export default async function Home() {
+  const dayKey = getEasternDateKey();
+  const events = await getDailyApprovedEvents(DAILY_WEAVE_EVENT_COUNT, dayKey);
+  const answer = sortChronological(events);
+  const autoPlacedEventId = answer[AUTOPLACED_CHRONOLOGY_INDEX]?.id ?? null;
+  const bankPool =
+    autoPlacedEventId != null
+      ? events.filter((e) => e.id !== autoPlacedEventId)
+      : events;
+  const initialBank = seededShuffle(bankPool, `bank:${dayKey}`);
+  const cookieStore = await cookies();
+  const lockCookie = cookieStore.get(DAILY_LOCK_COOKIE)?.value;
+  const initialLockedForToday = lockCookie === dayKey;
+  const initialStoredResult = parseStoredResultForDay(
+    cookieStore.get(DAILY_RESULT_COOKIE)?.value,
+    dayKey,
+    events.length,
+  );
+
   return (
     <div className={styles.page}>
+      <AppHeader />
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+        <Timeline
+          key={initialBank.map((e) => e.id).join("-")}
+          events={events}
+          initialBank={initialBank}
+          autoPlacedEventId={autoPlacedEventId}
+          initialLockedForToday={initialLockedForToday}
+          initialStoredResult={initialStoredResult}
         />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
       </main>
     </div>
   );
