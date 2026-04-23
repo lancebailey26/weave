@@ -1,13 +1,43 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
+  --background: #f3f4f8;
+  --foreground: #ffffff;
+  --surface-0: #f3f4f8;
+  --surface-1: #ffffff;
+  --surface-2: #f7f8fc;
+  --surface-3: #eef1f9;
 
-  --text-primary: #000;
-  --text-secondary: #666;
+  --text-primary: #141822;
+  --text-secondary: #4b5465;
+  --text-tertiary: #768095;
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
+  --border-subtle: #d7dceb;
+  --border-strong: #bcc5db;
+  --button-secondary-border: var(--border-subtle);
+  --button-secondary-hover: #edf1fa;
+  --button-primary-hover: #2f3c58;
+
+  --accent: #5d70ff;
+  --accent-soft: #edf0ff;
+  --focus-ring: rgb(93 112 255 / 35%);
+
+  --success-border: #2d9d5f;
+  --success-bg: #e8f7ef;
+  --danger-border: #d23b3b;
+  --danger-bg: #fde8e8;
+  --warning-border: #d4a00a;
+  --warning-bg: #fff7d6;
+
+  --shadow-soft: 0 10px 30px rgb(24 36 66 / 8%);
+  --shadow-overlay: 0 20px 45px rgb(12 18 30 / 16%);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-pill: 9999px;
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 14px;
+  --space-lg: 20px;
+  --control-height: 42px;
 
   display: flex;
   flex: 1;
@@ -24,124 +54,53 @@
   display: flex;
   flex: 1;
   min-height: 0;
-  width: 100%;
   max-width: 1040px;
   margin: 0 auto;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  background-color: var(--foreground);
-  padding: 20px 16px;
+  background: var(--background);
+  padding: 12px;
   overflow: hidden;
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
+@media (min-width: 601px) {
   .main {
-    padding: 12px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
+    padding: 20px 16px;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
   .page {
-    --background: #000;
-    --foreground: #000;
+    --background: #0c1324;
+    --foreground: #10192c;
+    --surface-0: #0c1324;
+    --surface-1: #121d32;
+    --surface-2: #18243a;
+    --surface-3: #1e2c45;
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+    --text-primary: #f2f5ff;
+    --text-secondary: #a8b1c7;
+    --text-tertiary: #7f8aa3;
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+    --border-subtle: #2b344a;
+    --border-strong: #3a4761;
+    --button-secondary-border: var(--border-subtle);
+    --button-secondary-hover: #1a2334;
+    --button-primary-hover: #6f83ff;
+
+    --accent: #8a9aff;
+    --accent-soft: #1c2540;
+    --focus-ring: rgb(138 154 255 / 45%);
+
+    --success-border: #46d985;
+    --success-bg: #112a20;
+    --danger-border: #f07f7f;
+    --danger-bg: #3a1b23;
+    --warning-border: #e5bb47;
+    --warning-bg: #3e3212;
+
+    --shadow-soft: 0 14px 34px rgb(0 0 0 / 40%);
+    --shadow-overlay: 0 24px 55px rgb(0 0 0 / 52%);
   }
 }

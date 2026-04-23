@@ -22,6 +22,7 @@ const DAILY_LOCK_COOKIE = "weave_daily_lock_v1";
 const DAILY_RESULT_COOKIE = "weave_daily_result_v1";
 /** Keep in sync with `wrong-*-flash` animation duration in `timeline.module.css`. */
 const WRONG_DROP_FLASH_MS = 880;
+const ENDGAME_REVEAL_DELAY_MS = 620;
 
 type StoredDailyResult = {
   date: string;
@@ -106,6 +107,7 @@ function createInitialGameState({
 function BankZone({ children }: { children: React.ReactNode }) {
   return (
     <aside className={styles.bank}>
+      <p className={styles.bankTitle}>Bank</p>
       <div className={styles.bankList}>{children}</div>
     </aside>
   );
@@ -230,6 +232,7 @@ export default function Timeline({
     }),
   );
   const [resultsDismissed, setResultsDismissed] = useState(false);
+  const [showResults, setShowResults] = useState(initialLockedForToday);
   const [wrongFlash, setWrongFlash] = useState<{
     index: number;
     warmHint: boolean;
@@ -249,6 +252,8 @@ export default function Timeline({
   const won = placements.every((id) => id != null);
   const lost = triesLeft <= 0 && !won;
   const isInteractionLocked = won || lost;
+  const hasEnded = won || lost;
+  const isEnding = hasEnded && !showResults && !initialLockedForToday;
 
   const triggerWrongDropFeedback = useCallback((slotIndex: number, warmHint: boolean) => {
     setWrongFlash({ index: slotIndex, warmHint });
@@ -278,6 +283,18 @@ export default function Timeline({
       oneDaySeconds,
     );
   }, [won, lost, game.placements, game.triesLeft]);
+
+  useEffect(() => {
+    if (!hasEnded || initialLockedForToday) return;
+
+    const timerId = window.setTimeout(() => {
+      setShowResults(true);
+    }, ENDGAME_REVEAL_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [hasEnded, initialLockedForToday]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -370,7 +387,7 @@ export default function Timeline({
 
   return (
     <>
-    {(won || lost) && !resultsDismissed && (
+    {showResults && hasEnded && !resultsDismissed && (
       <Results
         game={game}
         orderedEvents={answer}
@@ -390,25 +407,27 @@ export default function Timeline({
           KeyboardSensor,
         ]}
       >
-        <div className={styles.board}>
-          <BankZone>
-            {(won || lost) && (
-              <p className={styles.nextWeaveCountdown}>
-                New Weave in <strong>{formatCountdown(msUntilNextWeave)}</strong>
-              </p>
-            )}
-            {bank.length === 0 ? (
-              <p className={styles.emptyBank}>
-                {won ? "Timeline complete. Return tomorrow for a new Weave." : "No events left in the bank."}
-              </p>
-            ) : (
-              lost
-                ? <p className={styles.emptyBank}>You lost. Return tomorrow for a new Weave.</p>
-                : <BankPiece event={bank[0]} />
-            )}
-          </BankZone>
-
+        <div className={`${styles.board} ${isEnding ? styles.boardEndgame : ""}`}>
+          <section>
+            <BankZone>
+              {(won || lost) && (
+                <p className={styles.nextWeaveCountdown}>
+                  New Weave in <strong>{formatCountdown(msUntilNextWeave)}</strong>
+                </p>
+              )}
+              {bank.length === 0 ? (
+                <p className={styles.emptyBank}>
+                  {won ? "Timeline complete. Return tomorrow for a new Weave." : "No events left in the bank."}
+                </p>
+              ) : (
+                lost
+                  ? <p className={styles.emptyBank}>You lost. Return tomorrow for a new Weave.</p>
+                  : <BankPiece event={bank[0]} />
+              )}
+            </BankZone>
+          </section>
           <section className={styles.timeline}>
+            <p className={styles.timelineTitle}>Timeline</p>
             <div className={styles.slotList}>
               {placements.map((id, index) => (
                 <TimelineSlot
