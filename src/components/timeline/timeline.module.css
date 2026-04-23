@@ -417,6 +417,92 @@
   margin-top: auto;
 }
 
+@media (max-width: 600px) {
+  .board {
+    gap: 10px;
+  }
+
+  .timeline {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .timelineTitle {
+    font-size: 12px;
+  }
+
+  .slotList {
+    gap: 6px;
+  }
+
+  .slot {
+    gap: 10px;
+    padding: 4px;
+    height: clamp(72px, 10.5dvh, 86px);
+    min-height: clamp(72px, 10.5dvh, 86px);
+    max-height: clamp(72px, 10.5dvh, 86px);
+  }
+
+  .slotMeta {
+    min-width: 36px;
+    font-size: 11px;
+  }
+
+  .slotIndex {
+    font-size: 15px;
+  }
+
+  .slotOf {
+    font-size: 9px;
+  }
+
+  .eventCard {
+    padding: 6px 10px;
+    border-radius: 12px;
+  }
+
+  .eventCardWithDate {
+    padding: 2px 10px;
+    gap: 3px;
+  }
+
+  .eventTitle {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .eventDescription {
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  .eventDate {
+    font-size: 11px;
+    line-height: 1.1;
+    opacity: 0.68;
+  }
+
+  .tries {
+    font-size: 12px;
+  }
+
+  .bank {
+    padding: 10px;
+  }
+
+  .bank .bankTitle {
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  .nextWeaveCountdown,
+  .emptyBank {
+    font-size: 11px;
+  }
+}
+
 @media (min-width: 720px) {
   .board {
     gap: 22px;

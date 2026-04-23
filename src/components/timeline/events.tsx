@@ -28,7 +28,7 @@ export function EventCard({
       data-locked={locked ? "true" : undefined}
       data-loss-reveal={lossReveal ? "true" : undefined}
     >
-      <span className={styles.eventTitle}>{event.title}</span>
+      {!locked && <span className={styles.eventTitle}>{event.title}</span>}
 
       {showDate && (
         <>
