@@ -1,0 +1,330 @@
+.eventCard {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 11px 15px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: grab;
+  opacity: 1;
+  touch-action: none;
+  user-select: none;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease,
+    opacity 0.15s ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+
+  &:hover:not([data-locked="true"]):not([data-loss-reveal="true"]) {
+    transform: translateY(-1px);
+    border-color: rgb(138 154 255 / 78%);
+  }
+
+  &[data-dragging="true"] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    cursor: grabbing;
+    opacity: 0.85;
+    transform: scale(0.995);
+  }
+
+  &[data-locked="true"] {
+    border-color: transparent;
+    background: transparent;
+    padding-top: 8px;
+    cursor: default;
+  }
+
+  &[data-loss-reveal="true"] {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    opacity: 0.88;
+    cursor: default;
+  }
+
+  &[data-loss-reveal="true"] .eventDescription,
+  &[data-loss-reveal="true"] .eventDate {
+    opacity: 0.85;
+  }
+}
+
+.eventCardBank {
+  min-height: 62px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-color: rgb(138 154 255 / 52%);
+  background: linear-gradient(
+    160deg,
+    rgb(138 154 255 / 24%) 0%,
+    rgb(138 154 255 / 12%) 52%,
+    var(--surface-1) 100%
+  );
+  box-shadow:
+    0 10px 24px rgb(5 10 20 / 24%),
+    inset 0 0 0 1px rgb(169 181 255 / 22%);
+}
+
+.eventCardDefault {
+  border-radius: var(--radius-md);
+}
+
+.eventCardSlot {
+  border-radius: var(--radius-md);
+}
+
+.eventCardWithDate {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+  padding: 5px 15px;
+}
+
+.eventTitle {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.eventCategory {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--category-border, var(--border-strong));
+  background: var(--category-bg, var(--surface-2));
+  color: var(--category-text, var(--text-secondary));
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  margin-left: auto;
+}
+
+.eventCategory[data-category="culture"] {
+  --category-bg: rgb(168 85 247 / 16%);
+  --category-border: rgb(147 51 234 / 36%);
+  --category-text: rgb(109 40 167);
+}
+
+.eventCategory[data-category="game"] {
+  --category-bg: rgb(249 115 22 / 16%);
+  --category-border: rgb(229 102 14 / 36%);
+  --category-text: rgb(163 69 10);
+}
+
+.eventCategory[data-category="history"] {
+  --category-bg: rgb(161 98 7 / 14%);
+  --category-border: rgb(133 77 14 / 34%);
+  --category-text: rgb(120 53 15);
+}
+
+.eventCategory[data-category="internet"] {
+  --category-bg: rgb(99 102 241 / 16%);
+  --category-border: rgb(90 93 222 / 36%);
+  --category-text: rgb(68 72 187);
+}
+
+.eventCategory[data-category="tech"] {
+  --category-bg: rgb(62 112 255 / 16%);
+  --category-border: rgb(79 129 255 / 36%);
+  --category-text: rgb(60 105 235);
+}
+
+.eventCategory[data-category="movie"] {
+  --category-bg: rgb(194 97 255 / 16%);
+  --category-border: rgb(190 96 242 / 36%);
+  --category-text: rgb(150 79 205);
+}
+
+.eventCategory[data-category="music"] {
+  --category-bg: rgb(244 114 182 / 16%);
+  --category-border: rgb(229 95 166 / 36%);
+  --category-text: rgb(182 64 131);
+}
+
+.eventCategory[data-category="politics"] {
+  --category-bg: rgb(220 38 38 / 14%);
+  --category-border: rgb(185 28 28 / 34%);
+  --category-text: rgb(153 27 27);
+}
+
+.eventCategory[data-category="product"] {
+  --category-bg: rgb(20 184 166 / 16%);
+  --category-border: rgb(18 160 144 / 36%);
+  --category-text: rgb(17 122 111);
+}
+
+.eventCategory[data-category="science"] {
+  --category-bg: rgb(14 165 233 / 16%);
+  --category-border: rgb(2 132 199 / 36%);
+  --category-text: rgb(3 105 161);
+}
+
+.eventCategory[data-category="sports"] {
+  --category-bg: rgb(239 68 68 / 14%);
+  --category-border: rgb(220 38 38 / 34%);
+  --category-text: rgb(165 28 28);
+}
+
+.eventCategory[data-category="tv"] {
+  --category-bg: rgb(34 197 94 / 16%);
+  --category-border: rgb(36 181 90 / 36%);
+  --category-text: rgb(21 133 66);
+}
+
+.eventCategory[data-category="world"] {
+  --category-bg: rgb(234 179 8 / 18%);
+  --category-border: rgb(208 157 9 / 40%);
+  --category-text: rgb(146 102 14);
+}
+
+.eventCard:not(.eventCardWithDate) .eventTitle {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eventCardWithDate .eventTitle {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.eventCardWithDate .eventCategory {
+  margin-left: 0;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.eventDescription {
+  width: 100%;
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.eventCardWithDate .eventDescription {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.eventDate {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  opacity: 0.72;
+  line-height: 1.2;
+}
+
+.eventCardWithDate .eventDate {
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  .eventCard {
+    padding: 5px 8px;
+    border-radius: 10px;
+  }
+
+  .eventCardBank {
+    min-height: 54px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .eventCardWithDate {
+    padding: 1px 8px;
+    gap: 2px;
+  }
+
+  .eventTitle {
+    font-size: 11px;
+    line-height: 1.15;
+  }
+
+  .eventCategory {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+
+  .eventDescription {
+    font-size: 10px;
+    line-height: 1.15;
+  }
+
+  .eventDate {
+    font-size: 10px;
+    line-height: 1.1;
+    opacity: 0.68;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .eventCard {
+    &:hover:not([data-locked="true"]):not([data-loss-reveal="true"]) {
+      border-color: rgb(150 168 255 / 84%);
+      box-shadow:
+        0 12px 24px rgb(0 0 0 / 38%),
+        inset 0 0 0 1px rgb(170 186 255 / 26%);
+    }
+
+    &[data-dragging="true"] {
+      background: var(--accent-soft);
+    }
+
+    &[data-locked="true"] {
+      border-color: transparent;
+      background: transparent;
+      padding-top: 8px;
+    }
+
+    &[data-loss-reveal="true"] {
+      border-color: var(--border-strong);
+      background: var(--surface-2);
+      color: var(--text-secondary);
+      opacity: 0.88;
+    }
+
+    &[data-loss-reveal="true"] .eventDescription,
+    &[data-loss-reveal="true"] .eventDate {
+      opacity: 0.8;
+    }
+  }
+
+  .eventDate {
+    color: var(--text-secondary);
+  }
+}

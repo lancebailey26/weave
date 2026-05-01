@@ -47,3 +47,8 @@ a {
     color-scheme: dark;
   }
 }
+
+.cl-modalBackdrop {
+  background: rgb(2 4 12 / 68%) !important;
+  backdrop-filter: blur(4px);
+}

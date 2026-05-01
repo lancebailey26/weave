@@ -11,15 +11,19 @@ export type Event = {
 
   // Category of the event.
   category:
-    | "tech"
+    | "culture"
+    | "game"
+    | "history"
+    | "internet"
     | "movie"
     | "music"
-    | "tv"
-    | "world"
+    | "politics"
     | "product"
-    | "game"
-    | "internet"
-    | "other";
+    | "science"
+    | "sports"
+    | "tech"
+    | "tv"
+    | "world";
 
   // When the event was added to the database.
   createdAt: string; // ISO timestamp: "YYYY-MM-DDTHH:mm:ssZ"
@@ -34,10 +38,16 @@ export type Event = {
 export type GameState = {
   bank: Event[];
   placements: (string | null)[];
-  triesLeft: number;
+  misses: number;
+  startedAtMs: number | null;
+  elapsedMs: number;
 };
 
 export type DragPayload = { origin: "bank"; eventId: string };
 
 export type DropPayload = { type: "timeline-slot"; index: number };
 
+export type SplashProps = {
+  onClose: () => void;
+  screen: React.ReactNode;
+};
