@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <ClerkProvider>
+        <ClerkProvider publishableKey={process.env.CLERK_PUBLISHABLE_KEY}>
           {children}
         </ClerkProvider>
         <Analytics />
