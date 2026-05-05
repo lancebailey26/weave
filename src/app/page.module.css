@@ -41,7 +41,8 @@
 
   display: flex;
   flex: 1;
-  min-height: 100dvh;
+  min-height: 100svh;
+  height: 100svh;
   min-width: 0;
   flex-direction: column;
   align-items: stretch;
@@ -49,6 +50,13 @@
   font-family: var(--font-geist-sans);
   background-color: var(--background);
   overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .page {
+    min-height: 100dvh;
+    height: 100dvh;
+  }
 }
 
 .main {
@@ -79,7 +87,7 @@
   }
 
   .main {
-    padding: 8px 10px;
+    padding: 6px 8px;
   }
 }
 

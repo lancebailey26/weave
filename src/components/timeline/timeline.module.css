@@ -18,7 +18,9 @@
   width: 100%;
   max-width: 100%;
 }
-
+.tries {
+  padding: 5px;
+}
 .signInOverlay {
   position: fixed;
   inset: 0;
@@ -180,14 +182,14 @@
 
 @media (max-width: 600px) {
   .board {
-    gap: 7px;
+    gap: 6px;
   }
 
   .timeline {
     margin-top: 0;
     margin-bottom: 0;
-    padding: 8px;
-    gap: 6px;
+    padding: 6px;
+    gap: 4px;
   }
 
   .timelineTitle {
@@ -195,11 +197,30 @@
   }
 
   .slotList {
-    gap: 4px;
+    gap: 3px;
   }
 
   .tries {
-    font-size: 11px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 600px) and (max-height: 780px) {
+  .board {
+    gap: 4px;
+  }
+
+  .timeline {
+    padding: 4px;
+    gap: 3px;
+  }
+
+  .timelineTitle {
+    font-size: 10px;
+  }
+
+  .slotList {
+    gap: 2px;
   }
 }
 

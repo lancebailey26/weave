@@ -363,7 +363,6 @@
     bottom: 14px;
   }
 }
-
 @media (prefers-color-scheme: dark) {
   .brand {
     color: #eceff6;
@@ -372,3 +371,4 @@
       0 10px 24px rgb(0 0 0 / 42%);
   }
 }
+
