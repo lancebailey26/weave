@@ -155,7 +155,7 @@ export default async function Home({
       <AppHeader />
       <main className={styles.main}>
         <Timeline
-          key={`${storageDayKey}:${initialBank.map((e) => e.id).join("-")}`}
+          key={`${locale}:${storageDayKey}:${initialBank.map((e) => e.id).join("-")}`}
           events={events}
           initialBank={initialBank}
           autoPlacedEventId={autoPlacedEventId}
