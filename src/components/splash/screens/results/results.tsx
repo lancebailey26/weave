@@ -4,12 +4,12 @@ import type { Event, GameState } from "@/lib/types";
 import { formatEventDate } from "@/lib/format-event-date";
 import {
   ALL_WEAVE_CATEGORY,
-  getWeaveCategoryLabel,
   parseWeaveCategoryFilter,
 } from "@/lib/weave-categories";
 import { useSearchParams } from "next/navigation";
 import { track } from "@vercel/analytics";
 import styles from "./results.module.css";
+import { useTranslations } from "next-intl";
 
 function formatElapsed(ms: number) {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
@@ -25,12 +25,18 @@ export default function Results({
   game: GameState;
   orderedEvents: Event[];
 }) {
+  const t = useTranslations("results");
   const misses = game.misses;
-  const solvedLine = `Solved in ${formatElapsed(game.elapsedMs)} with ${misses} misses.`;
+  const solvedLine = t("solvedLine", {
+    time: formatElapsed(game.elapsedMs),
+    misses,
+  });
   const searchParams = useSearchParams();
   const category = parseWeaveCategoryFilter(searchParams.get("category") ?? undefined);
   const weaveTitle =
-    category === ALL_WEAVE_CATEGORY ? "Weave" : `Weave (${getWeaveCategoryLabel(category)})`;
+    category === ALL_WEAVE_CATEGORY
+      ? t("weaveTitle")
+      : t("weaveTitleWithCategory", { category: t(`categories.${category}`) });
 
   async function handleCopyResults() {
     const shareText = [
@@ -58,7 +64,7 @@ export default function Results({
         </ol>
 
         <button type="button" className={styles.copyButton} onClick={handleCopyResults}>
-          Copy Results
+          {t("copyResults")}
         </button>
       </div>
     </>

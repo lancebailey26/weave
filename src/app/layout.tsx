@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
+import { NextIntlClientProvider } from 'next-intl';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,9 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <ClerkProvider publishableKey={process.env.CLERK_PUBLISHABLE_KEY}>
-          {children}
-        </ClerkProvider>
+        <NextIntlClientProvider>
+          <ClerkProvider publishableKey={process.env.CLERK_PUBLISHABLE_KEY}>
+            {children}
+          </ClerkProvider>
+        </NextIntlClientProvider>
         <Analytics />
       </body>
     </html>

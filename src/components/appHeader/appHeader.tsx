@@ -17,21 +17,25 @@ import {
 import {
   ALL_WEAVE_CATEGORY,
   WEAVE_CATEGORIES,
-  getWeaveCategoryLabel,
   parseWeaveCategoryFilter,
   type WeaveCategoryFilter,
 } from "@/lib/weave-categories";
+import { SUPPORTED_LOCALES, type AppLocale } from "@/lib/i18n-locales";
+import { useLocale, useTranslations } from "next-intl";
 
 const MAX_AVATAR_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export default function AppHeader() {
+  const t = useTranslations("appHeader");
+  const locale = useLocale() as AppLocale;
   const menuRef = useRef<HTMLDetailsElement>(null);
   const clerk = useClerk();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
+  const [isLocaleMenuOpen, setIsLocaleMenuOpen] = useState(false);
   const [isRemoveAvatarConfirmOpen, setIsRemoveAvatarConfirmOpen] = useState(false);
   const [isRemovingAvatar, setIsRemovingAvatar] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
@@ -39,6 +43,7 @@ export default function AppHeader() {
     if (!menuRef.current) return;
     menuRef.current.open = false;
     setIsCategoryMenuOpen(false);
+    setIsLocaleMenuOpen(false);
   }
   const { isLoaded, isSignedIn, user } = useUser();
   const metadataAvatarUrl = parseAvatarUrlFromMetadata(
@@ -85,6 +90,24 @@ export default function AppHeader() {
     closeMenu();
   }
 
+  async function applyLocale(nextLocale: AppLocale) {
+    if (isSignedIn) {
+      try {
+        await fetch("/api/user/locale", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ locale: nextLocale }),
+        });
+      } catch {
+        showNotification(t("notifications.localeSaveFailed"));
+      }
+    }
+
+    setIsLocaleMenuOpen(false);
+    closeMenu();
+    router.refresh();
+  }
+
   async function handleChangeAvatar() {
     const uploader = document.createElement("input");
     uploader.type = "file";
@@ -93,11 +116,11 @@ export default function AppHeader() {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (file) {
         if (!ALLOWED_AVATAR_TYPES.has(file.type)) {
-          showNotification("Please choose a JPG, PNG, or WEBP image.");
+          showNotification(t("notifications.invalidAvatarType"));
           return;
         }
         if (file.size > MAX_AVATAR_SIZE_BYTES) {
-          showNotification("Avatar image must be 2MB or smaller.");
+          showNotification(t("notifications.avatarTooLarge"));
           return;
         }
 
@@ -106,7 +129,7 @@ export default function AppHeader() {
           await user?.reload();
         } catch (error) {
           const message =
-            error instanceof Error ? error.message : "Unable to upload avatar right now.";
+            error instanceof Error ? error.message : t("notifications.avatarUploadFailed");
           showNotification(message);
         }
       }
@@ -123,7 +146,7 @@ export default function AppHeader() {
       closeMenu();
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Unable to remove avatar right now.";
+        error instanceof Error ? error.message : t("notifications.avatarRemoveFailed");
       showNotification(message);
     } finally {
       setIsRemovingAvatar(false);
@@ -137,6 +160,7 @@ export default function AppHeader() {
       if (event.target instanceof Node && menu.contains(event.target)) return;
       menu.open = false;
       setIsCategoryMenuOpen(false);
+      setIsLocaleMenuOpen(false);
     }
 
     function handleEscape(event: KeyboardEvent) {
@@ -144,6 +168,7 @@ export default function AppHeader() {
       if (!menuRef.current?.open) return;
       menuRef.current.open = false;
       setIsCategoryMenuOpen(false);
+      setIsLocaleMenuOpen(false);
     }
 
     document.addEventListener("pointerdown", handlePointerDown);
@@ -165,9 +190,9 @@ export default function AppHeader() {
           }}
           screen={
             <div className={styles.avatarConfirm}>
-              <h2 className={styles.avatarConfirmTitle}>Remove Avatar?</h2>
+              <h2 className={styles.avatarConfirmTitle}>{t("confirm.title")}</h2>
               <p className={styles.avatarConfirmText}>
-                Your uploaded avatar will be deleted and your default profile image will be used.
+                {t("confirm.description")}
               </p>
               <div className={styles.avatarConfirmActions}>
                 <button
@@ -176,7 +201,7 @@ export default function AppHeader() {
                   onClick={() => setIsRemoveAvatarConfirmOpen(false)}
                   disabled={isRemovingAvatar}
                 >
-                  Cancel
+                  {t("confirm.cancel")}
                 </button>
                 <button
                   type="button"
@@ -186,7 +211,7 @@ export default function AppHeader() {
                   }}
                   disabled={isRemovingAvatar}
                 >
-                  {isRemovingAvatar ? "Removing..." : "Remove Avatar"}
+                  {isRemovingAvatar ? t("confirm.removing") : t("confirm.removeAvatar")}
                 </button>
               </div>
             </div>
@@ -200,7 +225,7 @@ export default function AppHeader() {
             type="button"
             className={styles.notificationClose}
             onClick={() => setNotificationMessage(null)}
-            aria-label="Dismiss notification"
+            aria-label={t("notifications.dismiss")}
           >
             ×
           </button>
@@ -215,7 +240,7 @@ export default function AppHeader() {
           {isSignedIn && user ? (
             <Image
               src={preferredAvatarUrl ?? user.imageUrl}
-              alt={user.fullName ?? user.username ?? "Profile"}
+              alt={user.fullName ?? user.username ?? t("profileAlt")}
               className={styles.menuAvatar}
               width={38}
               height={38}
@@ -231,14 +256,17 @@ export default function AppHeader() {
                 <button
                   type="button"
                   className={`${styles.menuItem} ${styles.menuItemWithChevron}`}
-                  onClick={() => setIsCategoryMenuOpen((open) => !open)}
+                  onClick={() => {
+                    setIsLocaleMenuOpen(false);
+                    setIsCategoryMenuOpen((open) => !open);
+                  }}
                   aria-expanded={isCategoryMenuOpen}
                 >
                   <FontAwesomeIcon icon={faChevronLeft} className={styles.menuChevron} />
                   <span>
-                    Category
+                    {t("menu.category")}
                     <strong className={styles.menuSubLabel}>
-                      {getWeaveCategoryLabel(selectedCategory)}
+                      {t(`categories.${selectedCategory}`)}
                     </strong>
                   </span>
                   
@@ -253,7 +281,7 @@ export default function AppHeader() {
                       }`}
                       onClick={() => applyCategory(ALL_WEAVE_CATEGORY)}
                     >
-                      {getWeaveCategoryLabel(ALL_WEAVE_CATEGORY)}
+                      {t(`categories.${ALL_WEAVE_CATEGORY}`)}
                     </button>
                     {WEAVE_CATEGORIES.map((category) => (
                       <button
@@ -264,7 +292,41 @@ export default function AppHeader() {
                         }`}
                         onClick={() => applyCategory(category)}
                       >
-                        {getWeaveCategoryLabel(category)}
+                        {t(`categories.${category}`)}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className={styles.menuItemFlyout}>
+                <button
+                  type="button"
+                  className={`${styles.menuItem} ${styles.menuItemWithChevron}`}
+                  onClick={() => {
+                    setIsCategoryMenuOpen(false);
+                    setIsLocaleMenuOpen((open) => !open);
+                  }}
+                  aria-expanded={isLocaleMenuOpen}
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} className={styles.menuChevron} />
+                  <span>
+                    {t("menu.language")}
+                    <strong className={styles.menuSubLabel}>{t(`locales.${locale}`)}</strong>
+                  </span>
+                </button>
+
+                {isLocaleMenuOpen && (
+                  <div className={styles.subMenuPanel}>
+                    {SUPPORTED_LOCALES.map((availableLocale) => (
+                      <button
+                        key={availableLocale}
+                        type="button"
+                        className={`${styles.menuItem} ${
+                          locale === availableLocale ? styles.menuItemActive : ""
+                        }`}
+                        onClick={() => applyLocale(availableLocale)}
+                      >
+                        {t(`locales.${availableLocale}`)}
                       </button>
                     ))}
                   </div>
@@ -277,7 +339,7 @@ export default function AppHeader() {
                   handleChangeAvatar();
                 }}
               >
-                Change Avatar
+                {t("menu.changeAvatar")}
               </button>
               {metadataAvatarUrl && (
                 <button
@@ -288,7 +350,7 @@ export default function AppHeader() {
                     setIsRemoveAvatarConfirmOpen(true);
                   }}
                 >
-                  Remove Avatar
+                  {t("menu.removeAvatar")}
                 </button>
               )}
               <button
@@ -299,7 +361,7 @@ export default function AppHeader() {
                   void clerk.signOut();
                 }}
               >
-                Sign out
+                {t("menu.signOut")}
               </button>
             </>
           ) : (
@@ -311,7 +373,7 @@ export default function AppHeader() {
                 void clerk.openSignIn();
               }}
             >
-              Sign in
+              {t("menu.signIn")}
             </button>
           )}
         </div>

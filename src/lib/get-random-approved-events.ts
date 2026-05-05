@@ -5,6 +5,7 @@ import type { Event } from "@/lib/types";
 import { getDb } from "@/lib/mongodb";
 import { seededShuffle } from "@/lib/shuffle";
 import type { WeaveCategory } from "@/lib/weave-categories";
+import type { AppLocale } from "@/lib/i18n-locales";
 
 function asString(value: unknown, fallback = ""): string {
   if (typeof value === "string") return value;
@@ -13,11 +14,46 @@ function asString(value: unknown, fallback = ""): string {
   return String(value);
 }
 
-function mapDocToEvent(doc: WithId<Document>): Event {
+function asLocalizedString(
+  value: unknown,
+  locale: AppLocale,
+  fallback = "",
+): string {
+  if (typeof value === "string") return value;
+  if (value && typeof value === "object") {
+    const localized = value as Record<string, unknown>;
+    const localeValue = localized[locale];
+    if (typeof localeValue === "string") return localeValue;
+    const englishValue = localized.en;
+    if (typeof englishValue === "string") return englishValue;
+  }
+  if (value instanceof Date) return value.toISOString();
+  if (value == null) return fallback;
+  return String(value);
+}
+
+function mapDocToEvent(doc: WithId<Document>, locale: AppLocale): Event {
+  const category =
+    doc.category === "culture" ||
+    doc.category === "game" ||
+    doc.category === "history" ||
+    doc.category === "internet" ||
+    doc.category === "movie" ||
+    doc.category === "music" ||
+    doc.category === "politics" ||
+    doc.category === "product" ||
+    doc.category === "science" ||
+    doc.category === "sports" ||
+    doc.category === "tech" ||
+    doc.category === "tv" ||
+    doc.category === "world"
+      ? doc.category
+      : "world";
+
   return {
     id: typeof doc.id === "string" ? doc.id : String(doc._id),
-    title: asString(doc.title, "Untitled event"),
-    description: asString(doc.description),
+    title: asLocalizedString(doc.title, locale, "Untitled event"),
+    description: asLocalizedString(doc.description, locale),
     date: asString(doc.date),
     precision:
       doc.precision === "day" ||
@@ -25,22 +61,7 @@ function mapDocToEvent(doc: WithId<Document>): Event {
       doc.precision === "year"
         ? doc.precision
         : "day",
-    category:
-      doc.category === "culture" ||
-      doc.category === "game" ||
-      doc.category === "history" ||
-      doc.category === "internet" ||
-      doc.category === "movie" ||
-      doc.category === "music" ||
-      doc.category === "politics" ||
-      doc.category === "product" ||
-      doc.category === "science" ||
-      doc.category === "sports" ||
-      doc.category === "tech" ||
-      doc.category === "tv" ||
-      doc.category === "world"
-        ? doc.category
-        : "world",
+    category,
     createdAt: asString(doc.createdAt),
     submittedBy: asString(doc.submittedBy),
     status:
@@ -54,6 +75,7 @@ function mapDocToEvent(doc: WithId<Document>): Event {
 export async function getDailyApprovedEvents(
   size: number,
   dayKey: string,
+  locale: AppLocale,
   category?: WeaveCategory,
 ): Promise<Event[]> {
   const db = await getDb();
@@ -65,7 +87,10 @@ export async function getDailyApprovedEvents(
     .sort({ _id: 1 })
     .toArray();
 
-  const categoryEvents = seededShuffle(rows.map(mapDocToEvent), `events:${dayKey}:${category ?? "all"}`);
+  const categoryEvents = seededShuffle(
+    rows.map((row) => mapDocToEvent(row, locale)),
+    `events:${dayKey}:${category ?? "all"}`,
+  );
   if (!category || categoryEvents.length >= size) {
     return categoryEvents.slice(0, size);
   }
@@ -76,14 +101,17 @@ export async function getDailyApprovedEvents(
     .sort({ _id: 1 })
     .toArray();
   const remainingEvents = seededShuffle(
-    remainingRows.map(mapDocToEvent),
+    remainingRows.map((row) => mapDocToEvent(row, locale)),
     `events:${dayKey}:fallback:${category}`,
   );
 
   return [...categoryEvents, ...remainingEvents].slice(0, size);
 }
 
-export async function getApprovedEventsByIds(ids: readonly string[]): Promise<Event[]> {
+export async function getApprovedEventsByIds(
+  ids: readonly string[],
+  locale: AppLocale,
+): Promise<Event[]> {
   if (ids.length === 0) return [];
   const db = await getDb();
   const rows = await db
@@ -95,5 +123,5 @@ export async function getApprovedEventsByIds(ids: readonly string[]): Promise<Ev
   return ids
     .map((id) => byId.get(id))
     .filter((row): row is WithId<Document> => row != null)
-    .map(mapDocToEvent);
+    .map((row) => mapDocToEvent(row, locale));
 }

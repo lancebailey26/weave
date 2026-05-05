@@ -2,7 +2,7 @@
 
 import type { Event as EventType } from "@/lib/types";
 import { formatEventDate } from "@/lib/format-event-date";
-import { getWeaveCategoryLabel } from "@/lib/weave-categories";
+import { useTranslations } from "next-intl";
 import styles from "./eventCard.module.css";
 
 function eventCardVariantClass(
@@ -28,6 +28,8 @@ export function EventCard({
   locked?: boolean;
   lossReveal?: boolean;
 }) {
+  const t = useTranslations("timeline");
+
   return (
     <div
       className={`${styles.eventCard} ${eventCardVariantClass(variant)} ${
@@ -41,7 +43,7 @@ export function EventCard({
         <>
           <span className={styles.eventTitle}>{event.title}</span>
           <span className={styles.eventCategory} data-category={event.category}>
-            {getWeaveCategoryLabel(event.category)}
+            {t(`categories.${event.category}`)}
           </span>
         </>
       )}

@@ -27,6 +27,8 @@ import {
   parseWeaveCategoryFilter,
   type WeaveCategoryFilter,
 } from "@/lib/weave-categories";
+import { getLocale } from "next-intl/server";
+import { DEFAULT_LOCALE, parseLocaleFromUnknown } from "@/lib/i18n-locales";
 
 function parseStoredResultForDay(
   raw: string | undefined,
@@ -91,6 +93,7 @@ export default async function Home({
     | Promise<{ category?: string | string[] }>;
 }) {
   const resolvedSearchParams = await searchParams;
+  const locale = parseLocaleFromUnknown(await getLocale()) ?? DEFAULT_LOCALE;
   const hasExplicitCategoryInQuery =
     resolvedSearchParams?.category != null &&
     (!Array.isArray(resolvedSearchParams.category) ||
@@ -118,7 +121,7 @@ export default async function Home({
   const savedEventIds = eventSelectionsByScope[storageDayKey];
   const savedEvents =
     savedEventIds && savedEventIds.length === DAILY_WEAVE_EVENT_COUNT
-      ? await getApprovedEventsByIds(savedEventIds)
+      ? await getApprovedEventsByIds(savedEventIds, locale)
       : [];
   const events =
     savedEvents.length === DAILY_WEAVE_EVENT_COUNT
@@ -126,6 +129,7 @@ export default async function Home({
       : await getDailyApprovedEvents(
           DAILY_WEAVE_EVENT_COUNT,
           dayKey,
+          locale,
           selectedCategory,
         );
   const answer = sortChronological(events);

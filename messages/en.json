@@ -1,0 +1,96 @@
+{
+  "timeline": {
+    "misses": "Misses",
+    "time": "Time",
+    "bank": "Bank",
+    "title": "Timeline",
+    "viewResults": "View Results",
+    "nextWeaveIn": "New Weave in",
+    "nextCategoryWeaveIn": "New {category} Weave in",
+    "slotOf": "of {count}",
+    "categories": {
+      "all": "All categories",
+      "culture": "Culture",
+      "game": "Game",
+      "history": "History",
+      "internet": "Internet",
+      "movie": "Movie",
+      "music": "Music",
+      "politics": "Politics",
+      "product": "Product",
+      "science": "Science",
+      "sports": "Sports",
+      "tech": "Tech",
+      "tv": "TV",
+      "world": "World"
+    }
+  },
+  "appHeader": {
+    "profileAlt": "Profile",
+    "categories": {
+      "all": "All categories",
+      "culture": "Culture",
+      "game": "Game",
+      "history": "History",
+      "internet": "Internet",
+      "movie": "Movie",
+      "music": "Music",
+      "politics": "Politics",
+      "product": "Product",
+      "science": "Science",
+      "sports": "Sports",
+      "tech": "Tech",
+      "tv": "TV",
+      "world": "World"
+    },
+    "menu": {
+      "category": "Category",
+      "language": "Language",
+      "changeAvatar": "Change Avatar",
+      "removeAvatar": "Remove Avatar",
+      "signOut": "Sign out",
+      "signIn": "Sign in"
+    },
+    "locales": {
+      "en": "English",
+      "fr": "French"
+    },
+    "confirm": {
+      "title": "Remove Avatar?",
+      "description": "Your uploaded avatar will be deleted and your default profile image will be used.",
+      "cancel": "Cancel",
+      "removing": "Removing...",
+      "removeAvatar": "Remove Avatar"
+    },
+    "notifications": {
+      "invalidAvatarType": "Please choose a JPG, PNG, or WEBP image.",
+      "avatarTooLarge": "Avatar image must be 2MB or smaller.",
+      "avatarUploadFailed": "Unable to upload avatar right now.",
+      "avatarRemoveFailed": "Unable to remove avatar right now.",
+      "localeSaveFailed": "Unable to save language setting right now.",
+      "dismiss": "Dismiss notification"
+    }
+  },
+  "results": {
+    "solvedLine": "Solved in {time} with {misses} misses.",
+    "weaveTitle": "Weave",
+    "weaveTitleWithCategory": "Weave ({category})",
+    "copyResults": "Copy Results",
+    "categories": {
+      "all": "All categories",
+      "culture": "Culture",
+      "game": "Game",
+      "history": "History",
+      "internet": "Internet",
+      "movie": "Movie",
+      "music": "Music",
+      "politics": "Politics",
+      "product": "Product",
+      "science": "Science",
+      "sports": "Sports",
+      "tech": "Tech",
+      "tv": "TV",
+      "world": "World"
+    }
+  }
+}

@@ -13,7 +13,6 @@ import type { Event, GameState, DragPayload, DropPayload } from "@/lib/types";
 import { sortChronological } from "@/lib/sort-events-chronological";
 import {
   ALL_WEAVE_CATEGORY,
-  getWeaveCategoryLabel,
   parseWeaveCategoryFilter,
 } from "@/lib/weave-categories";
 import Results from "../splash/screens/results/results";
@@ -28,7 +27,7 @@ import {
 } from "./lib/timelineConstants";
 import { readCookie, writeCookie } from "./lib/timelineCookies";
 import { formatCountdown } from "./lib/timelineCountdown";
-import { formatCategoryLabel, formatElapsed } from "./lib/timelineFormatting";
+import { formatElapsed } from "./lib/timelineFormatting";
 import { applyDropResult, markGameStarted } from "./lib/timelineGameActions";
 import {
   useAutoRevealResults,
@@ -44,7 +43,7 @@ import { createInitialGameState } from "./lib/timelineInitialGameState";
 import type { InitialStoredResult } from "./lib/timelineTypes";
 import { Show, SignIn } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
-
+import { useTranslations } from "next-intl";
 export default function Timeline({
   events,
   initialBank,
@@ -84,10 +83,13 @@ export default function Timeline({
     () => new Map(events.map((e) => [e.id, e] as const)),
     [events],
   );
-  const categoryLabel = useMemo(
-    () => formatCategoryLabel(searchParams.get("category")),
-    [searchParams],
-  );
+  const t = useTranslations("timeline");
+  const categoryLabel = useMemo(() => {
+    const rawCategory = searchParams.get("category");
+    if (!rawCategory) return "";
+    const category = parseWeaveCategoryFilter(rawCategory);
+    return ` - ${t(`categories.${category}`)}`;
+  }, [searchParams, t]);
   const selectedCategory = useMemo(
     () => parseWeaveCategoryFilter(searchParams.get("category") ?? undefined),
     [searchParams],
@@ -95,9 +97,11 @@ export default function Timeline({
   const nextWeaveLabel = useMemo(
     () =>
       selectedCategory === ALL_WEAVE_CATEGORY
-        ? "New Weave in"
-        : `New ${getWeaveCategoryLabel(selectedCategory)} Weave in`,
-    [selectedCategory],
+        ? t("nextWeaveIn")
+        : t("nextCategoryWeaveIn", {
+            category: t(`categories.${selectedCategory}`),
+          }),
+    [selectedCategory, t],
   );
 
   const answer = useMemo(() => sortChronological(events), [events]);
@@ -208,7 +212,7 @@ export default function Timeline({
       >
         <div className={`${styles.board} ${isEnding ? styles.boardEndgame : ""}`}>
           <section className={styles.boardBand}>
-            <BankZone>
+            <BankZone title={t("bank")}>
               {won && (
                 <p className={bankZoneStyles.nextWeaveCountdown}>
                   {nextWeaveLabel}{" "}
@@ -226,7 +230,7 @@ export default function Timeline({
                     setShowResults(true);
                   }}
                 >
-                  View Results
+                  {t("viewResults")}
                 </button>
               ) : (
                 <BankPiece event={bank[0]} />
@@ -234,7 +238,10 @@ export default function Timeline({
             </BankZone>
           </section>
           <section className={`${styles.boardBand} ${styles.timeline}`}>
-            <p className={styles.timelineTitle}>Timeline {categoryLabel}</p>
+            <p className={styles.timelineTitle}>
+              {t("title")}
+              {categoryLabel}
+            </p>
             <div className={styles.slotList}>
               {placements.map((id, index) => (
                 <TimelineSlot
@@ -255,7 +262,7 @@ export default function Timeline({
                 />
               ))}
               <div className={styles.tries}>
-                Misses: <strong>{misses}</strong> - Time: <strong>{formatElapsed(elapsedMs)}</strong>
+                {t("misses")}: <strong>{misses}</strong> - {t("time")}: <strong>{formatElapsed(elapsedMs)}</strong>
               </div>
             </div>
           </section>

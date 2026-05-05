@@ -3,6 +3,7 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { Event, DropPayload } from "@/lib/types";
 import { formatEventDate } from "@/lib/format-event-date";
+import { useTranslations } from "next-intl";
 import { EventCard } from "../eventCard/eventCard";
 import styles from "./timelineSlot.module.css";
 
@@ -28,6 +29,7 @@ export function TimelineSlot({
   wrongWarmHint: boolean;
   lossReveal: boolean;
 }) {
+  const t = useTranslations("timeline");
   const { ref: dropRef, isDropTarget } = useDroppable({
     id: `slot:${index}`,
     data: { type: "timeline-slot", index } satisfies DropPayload,
@@ -49,7 +51,9 @@ export function TimelineSlot({
     >
       <div className={styles.slotMeta}>
         <span className={styles.slotIndex}>{index + 1}</span>
-        <span className={styles.slotOf}>of {slotCount}</span>
+        <span className={styles.slotOf}>
+          {t("slotOf", { count: slotCount })}
+        </span>
       </div>
       {event ? (
         <div className={styles.lockedPiece}>

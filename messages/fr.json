@@ -1,0 +1,96 @@
+{
+  "timeline": {
+    "misses": "Erreurs",
+    "time": "Temps",
+    "bank": "Banque",
+    "title": "Chronologie",
+    "viewResults": "Voir les résultats",
+    "nextWeaveIn": "Nouveau Weave dans",
+    "nextCategoryWeaveIn": "Nouveau Weave {category} dans",
+    "slotOf": "sur {count}",
+    "categories": {
+      "all": "Toutes les catégories",
+      "culture": "Culture",
+      "game": "Jeu",
+      "history": "Histoire",
+      "internet": "Internet",
+      "movie": "Film",
+      "music": "Musique",
+      "politics": "Politique",
+      "product": "Produit",
+      "science": "Science",
+      "sports": "Sport",
+      "tech": "Tech",
+      "tv": "Télévision",
+      "world": "Monde"
+    }
+  },
+  "appHeader": {
+    "profileAlt": "Profil",
+    "categories": {
+      "all": "Toutes les catégories",
+      "culture": "Culture",
+      "game": "Jeu",
+      "history": "Histoire",
+      "internet": "Internet",
+      "movie": "Film",
+      "music": "Musique",
+      "politics": "Politique",
+      "product": "Produit",
+      "science": "Science",
+      "sports": "Sport",
+      "tech": "Tech",
+      "tv": "Télévision",
+      "world": "Monde"
+    },
+    "menu": {
+      "category": "Catégorie",
+      "language": "Langue",
+      "changeAvatar": "Changer l’avatar",
+      "removeAvatar": "Supprimer l’avatar",
+      "signOut": "Se déconnecter",
+      "signIn": "Se connecter"
+    },
+    "locales": {
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "confirm": {
+      "title": "Supprimer l’avatar ?",
+      "description": "Votre avatar sera supprimé et l’image de profil par défaut sera utilisée.",
+      "cancel": "Annuler",
+      "removing": "Suppression...",
+      "removeAvatar": "Supprimer l’avatar"
+    },
+    "notifications": {
+      "invalidAvatarType": "Veuillez choisir une image JPG, PNG ou WEBP.",
+      "avatarTooLarge": "L’image doit faire 2 Mo ou moins.",
+      "avatarUploadFailed": "Impossible de téléverser l’avatar pour le moment.",
+      "avatarRemoveFailed": "Impossible de supprimer l’avatar pour le moment.",
+      "localeSaveFailed": "Impossible d’enregistrer la langue pour le moment.",
+      "dismiss": "Fermer la notification"
+    }
+  },
+  "results": {
+    "solvedLine": "Résolu en {time} avec {misses} erreurs.",
+    "weaveTitle": "Weave",
+    "weaveTitleWithCategory": "Weave ({category})",
+    "copyResults": "Copier les résultats",
+    "categories": {
+      "all": "Toutes les catégories",
+      "culture": "Culture",
+      "game": "Jeu",
+      "history": "Histoire",
+      "internet": "Internet",
+      "movie": "Film",
+      "music": "Musique",
+      "politics": "Politique",
+      "product": "Produit",
+      "science": "Science",
+      "sports": "Sport",
+      "tech": "Tech",
+      "tv": "Télévision",
+      "world": "Monde"
+    }
+  }
+}
