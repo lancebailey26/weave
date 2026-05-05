@@ -11,14 +11,12 @@ export type Event = {
 
   // Category of the event.
   category:
-    | "culture"
     | "game"
     | "history"
     | "internet"
     | "movie"
     | "music"
     | "politics"
-    | "product"
     | "science"
     | "sports"
     | "tech"

@@ -3,14 +3,12 @@ import type { Event } from "@/lib/types";
 export type WeaveCategory = Event["category"];
 
 export const WEAVE_CATEGORIES: readonly WeaveCategory[] = [
-  "culture",
   "game",
   "history",
   "internet",
   "movie",
   "music",
   "politics",
-  "product",
   "science",
   "sports",
   "tech",
@@ -25,14 +23,12 @@ export const WEAVE_CATEGORY_METADATA_KEY = "preferredWeaveCategory";
 
 const CATEGORY_LABELS: Record<WeaveCategoryFilter, string> = {
   all: "All categories",
-  culture: "Culture",
   game: "Game",
   history: "History",
   internet: "Internet",
   movie: "Movie",
   music: "Music",
   politics: "Politics",
-  product: "Product",
   science: "Science",
   sports: "Sports",
   tech: "Tech",

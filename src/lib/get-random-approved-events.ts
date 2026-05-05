@@ -34,14 +34,12 @@ function asLocalizedString(
 
 function mapDocToEvent(doc: WithId<Document>, locale: AppLocale): Event {
   const category =
-    doc.category === "culture" ||
     doc.category === "game" ||
     doc.category === "history" ||
     doc.category === "internet" ||
     doc.category === "movie" ||
     doc.category === "music" ||
     doc.category === "politics" ||
-    doc.category === "product" ||
     doc.category === "science" ||
     doc.category === "sports" ||
     doc.category === "tech" ||
