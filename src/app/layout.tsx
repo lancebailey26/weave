@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 import { NextIntlClientProvider } from 'next-intl';
+import Link from "next/link";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,6 +33,15 @@ export default function RootLayout({
             {children}
           </ClerkProvider>
         </NextIntlClientProvider>
+        <footer className="siteFooter" aria-label="Legal links">
+          <nav className="siteFooterNav">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/cookies">Cookies</Link>
+            <Link href="/acceptable-use">Acceptable Use</Link>
+            <Link href="/subprocessors">Subprocessors</Link>
+          </nav>
+        </footer>
         <Analytics />
       </body>
     </html>

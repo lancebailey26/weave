@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./appHeader.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -363,18 +364,38 @@ export default function AppHeader() {
               >
                 {t("menu.signOut")}
               </button>
+              <Link
+                href="/legal"
+                className={styles.menuItem}
+                onClick={() => {
+                  closeMenu();
+                }}
+              >
+                Legal
+              </Link>
             </>
           ) : (
-            <button
-              type="button"
-              className={styles.menuItem}
-              onClick={() => {
-                closeMenu();
-                void clerk.openSignIn();
-              }}
-            >
-              {t("menu.signIn")}
-            </button>
+            <>
+              <button
+                type="button"
+                className={styles.menuItem}
+                onClick={() => {
+                  closeMenu();
+                  void clerk.openSignIn();
+                }}
+              >
+                {t("menu.signIn")}
+              </button>
+              <Link
+                href="/legal"
+                className={styles.menuItem}
+                onClick={() => {
+                  closeMenu();
+                }}
+              >
+                Legal
+              </Link>
+            </>
           )}
         </div>
         </details>
