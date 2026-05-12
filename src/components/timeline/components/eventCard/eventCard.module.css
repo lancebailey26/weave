@@ -151,8 +151,7 @@
 .eventCardScroll .eventDescription {
   width: 100%;
   min-width: 0;
-  flex: 0 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -333,13 +332,13 @@
   }
 
   .eventCardWithDate {
-    padding: 2px 8px;
-    gap: 3px;
+    padding: 3px 8px;
+    gap: 4px;
   }
 
   .eventTitle {
     font-size: 11px;
-    line-height: 1.15;
+    line-height: 1.2;
   }
 
   .eventCategory {
@@ -349,13 +348,18 @@
 
   .eventDescription {
     font-size: 10px;
-    line-height: 1.15;
+    line-height: 1.28;
     padding-inline-start: 8px;
+  }
+
+  .eventCardScroll .eventDescription {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .eventDate {
     font-size: 10px;
-    line-height: 1.1;
+    line-height: 1.15;
     opacity: 0.68;
   }
 }
@@ -372,23 +376,28 @@
   }
 
   .eventCardWithDate {
-    padding: 1px 6px;
-    gap: 2px;
+    padding: 2px 6px;
+    gap: 3px;
   }
 
   .eventTitle {
     font-size: 10px;
-    line-height: 1.1;
+    line-height: 1.15;
   }
 
   .eventDescription,
   .eventDate {
     font-size: 9px;
-    line-height: 1.05;
+    line-height: 1.22;
   }
 
   .eventDescription {
     padding-inline-start: 6px;
+  }
+
+  .eventCardScroll .eventDescription {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 }
 

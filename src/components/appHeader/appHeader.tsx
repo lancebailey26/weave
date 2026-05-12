@@ -155,28 +155,55 @@ export default function AppHeader() {
   }
 
   useEffect(() => {
-    function handlePointerDown(event: PointerEvent) {
+    function closeMenuFromOutside() {
       const menu = menuRef.current;
       if (!menu?.open) return;
-      if (event.target instanceof Node && menu.contains(event.target)) return;
       menu.open = false;
       setIsCategoryMenuOpen(false);
       setIsLocaleMenuOpen(false);
     }
 
+    function targetInsideMenu(target: EventTarget | null): boolean {
+      const menu = menuRef.current;
+      if (!menu || !(target instanceof Node)) return false;
+      return menu.contains(target);
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!menuRef.current?.open) return;
+      if (targetInsideMenu(event.target)) return;
+      closeMenuFromOutside();
+    }
+
+    function handleTouchStart(event: TouchEvent) {
+      if (!menuRef.current?.open) return;
+      if (targetInsideMenu(event.target)) return;
+      closeMenuFromOutside();
+    }
+
+    function handleClick(event: MouseEvent) {
+      if (!menuRef.current?.open) return;
+      if (targetInsideMenu(event.target)) return;
+      closeMenuFromOutside();
+    }
+
     function handleEscape(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
       if (!menuRef.current?.open) return;
-      menuRef.current.open = false;
-      setIsCategoryMenuOpen(false);
-      setIsLocaleMenuOpen(false);
+      closeMenuFromOutside();
     }
 
-    document.addEventListener("pointerdown", handlePointerDown);
+    const captureOptions = true;
+    const touchStartOptions = { capture: true, passive: true } as const;
+    document.addEventListener("pointerdown", handlePointerDown, captureOptions);
+    document.addEventListener("touchstart", handleTouchStart, touchStartOptions);
+    document.addEventListener("click", handleClick, captureOptions);
     document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("pointerdown", handlePointerDown, captureOptions);
+      document.removeEventListener("touchstart", handleTouchStart, touchStartOptions);
+      document.removeEventListener("click", handleClick, captureOptions);
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
