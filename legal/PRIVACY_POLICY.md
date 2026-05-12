@@ -62,7 +62,7 @@ Weave uses cookies for core gameplay state and product behavior. Current app coo
 
 - `weave_daily_lock_v1`
 - `weave_daily_result_v1`
-- `weave_signin_dismissed_v1`
+- `weave_signin_nudge_dismissed_v1`
 - `weave_daily_events_v1`
 
 These are used for game continuity, daily lock logic, and user experience settings. See our [Cookie Policy](/cookies) for more details.

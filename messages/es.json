@@ -23,7 +23,10 @@
       "tech": "Tecnología",
       "tv": "TV",
       "world": "Mundo"
-    }
+    },
+    "signInNudge": "Accede a más funciones al registrarte o iniciar sesión.",
+    "signInNudgeAria": "Aviso para iniciar sesión",
+    "signInNudgeDismiss": "Cerrar"
   },
   "appHeader": {
     "profileAlt": "Perfil",

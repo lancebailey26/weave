@@ -4,5 +4,6 @@ export const ENDGAME_REVEAL_DELAY_MS = 620;
 
 export const DAILY_LOCK_COOKIE = "weave_daily_lock_v1";
 export const DAILY_RESULT_COOKIE = "weave_daily_result_v1";
-export const DAILY_SIGNIN_DISMISSED_COOKIE = "weave_signin_dismissed_v1";
+/** Dismissal of the bottom sign-in nudge (not the old full-screen modal). */
+export const DAILY_SIGNIN_DISMISSED_COOKIE = "weave_signin_nudge_dismissed_v1";
 export const DAILY_EVENT_SELECTION_COOKIE = "weave_daily_events_v1";

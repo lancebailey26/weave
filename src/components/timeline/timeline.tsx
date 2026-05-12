@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { useAuth, useClerk } from "@clerk/nextjs";
 import {
   DragDropProvider,
   KeyboardSensor,
@@ -41,7 +42,6 @@ import {
 } from "./lib/timelineHooks";
 import { createInitialGameState } from "./lib/timelineInitialGameState";
 import type { InitialStoredResult } from "./lib/timelineTypes";
-import { Show, SignIn } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 export default function Timeline({
@@ -68,10 +68,12 @@ export default function Timeline({
       initialStoredResult,
     }),
   );
-  const [showSignInOverlay, setShowSignInOverlay] = useState(() => {
+  const [showSignInBanner, setShowSignInBanner] = useState(() => {
     const dismissedForDay = readCookie(DAILY_SIGNIN_DISMISSED_COOKIE);
     return dismissedForDay !== dailyScopeKey;
   });
+  const clerk = useClerk();
+  const { isLoaded, isSignedIn } = useAuth();
   const searchParams = useSearchParams();
   const [resultsDismissed, setResultsDismissed] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -116,10 +118,10 @@ export default function Timeline({
   const elapsedMs =
     won || game.startedAtMs == null ? game.elapsedMs : game.elapsedMs + (nowMs - game.startedAtMs);
 
-  const dismissSignInOverlay = useCallback(() => {
+  const dismissSignInBanner = useCallback(() => {
     const oneDaySeconds = 24 * 60 * 60;
     writeCookie(DAILY_SIGNIN_DISMISSED_COOKIE, dailyScopeKey, oneDaySeconds);
-    setShowSignInOverlay(false);
+    setShowSignInBanner(false);
   }, [dailyScopeKey]);
 
   usePersistDailySelection(dailyScopeKey, events);
@@ -176,20 +178,36 @@ export default function Timeline({
 
   return (
     <>
-      <Show when='signed-out'>
-        {!showSignInOverlay ? null : (
-          <div
-            className={styles.signInOverlay}
-            onClick={(event) => {
-              if (event.target === event.currentTarget) dismissSignInOverlay();
+      {isLoaded && !isSignedIn && showSignInBanner ? (
+        <div
+          className={styles.signInBanner}
+          role="status"
+          aria-live="polite"
+          aria-label={t("signInNudgeAria")}
+        >
+          <button
+            type="button"
+            className={styles.signInBannerAction}
+            onClick={() => {
+              void clerk.openSignIn();
+              dismissSignInBanner();
             }}
           >
-          <div className={styles.signInPanel}>
-            <SignIn routing="hash" />
-          </div>
-          </div>
-        )}
-      </Show>
+            {t("signInNudge")}
+          </button>
+          <button
+            type="button"
+            className={styles.signInBannerDismiss}
+            aria-label={t("signInNudgeDismiss")}
+            onClick={(event) => {
+              event.stopPropagation();
+              dismissSignInBanner();
+            }}
+          >
+            ×
+          </button>
+        </div>
+      ) : null}
       {showResults && hasEnded && !resultsDismissed && (
         <Splash
           onClose={() => setResultsDismissed(true)}

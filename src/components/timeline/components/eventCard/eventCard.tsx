@@ -39,18 +39,28 @@ export function EventCard({
       data-locked={locked ? "true" : undefined}
       data-loss-reveal={lossReveal ? "true" : undefined}
     >
-      {!locked && (
-        <>
+      {!showDate && !locked && (
+        <div className={styles.eventCardHead}>
           <span className={styles.eventTitle}>{event.title}</span>
           <span className={styles.eventCategory} data-category={event.category}>
             {t(`categories.${event.category}`)}
           </span>
-        </>
+        </div>
       )}
 
       {showDate && (
         <>
-          <span className={styles.eventDescription}>{event.description}</span>
+          <div className={styles.eventCardScroll}>
+            <div className={styles.eventCardHead}>
+              <span className={styles.eventTitle}>{event.title}</span>
+              {!locked ? (
+                <span className={styles.eventCategory} data-category={event.category}>
+                  {t(`categories.${event.category}`)}
+                </span>
+              ) : null}
+            </div>
+            <span className={styles.eventDescription}>{event.description}</span>
+          </div>
           <span className={styles.eventDate}>{formatEventDate(event)}</span>
         </>
       )}

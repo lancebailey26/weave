@@ -23,7 +23,10 @@
       "tech": "Tech",
       "tv": "TV",
       "world": "World"
-    }
+    },
+    "signInNudge": "Access more features when you sign up or sign in.",
+    "signInNudgeAria": "Sign in prompt",
+    "signInNudgeDismiss": "Dismiss"
   },
   "appHeader": {
     "profileAlt": "Profile",

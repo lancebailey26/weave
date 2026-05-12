@@ -23,7 +23,10 @@
       "tech": "Technik",
       "tv": "TV",
       "world": "Welt"
-    }
+    },
+    "signInNudge": "Schalte mehr Funktionen frei, indem du dich registrierst oder anmeldest.",
+    "signInNudgeAria": "Hinweis zur Anmeldung",
+    "signInNudgeDismiss": "Schließen"
   },
   "appHeader": {
     "profileAlt": "Profil",

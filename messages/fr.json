@@ -23,7 +23,10 @@
       "tech": "Tech",
       "tv": "Télévision",
       "world": "Monde"
-    }
+    },
+    "signInNudge": "Accédez à plus de fonctionnalités en créant un compte ou en vous connectant.",
+    "signInNudgeAria": "Invitation à se connecter",
+    "signInNudgeDismiss": "Fermer"
   },
   "appHeader": {
     "profileAlt": "Profil",

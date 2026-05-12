@@ -18,7 +18,7 @@ Based on current implementation, Weave uses first-party cookies for gameplay sta
 - `weave_daily_result_v1`  
   Stores your current daily result state (placements, misses, elapsed time) so gameplay can persist.
 
-- `weave_signin_dismissed_v1`  
+- `weave_signin_nudge_dismissed_v1`  
   Stores whether you dismissed the sign-in prompt for the current daily scope.
 
 - `weave_daily_events_v1`  

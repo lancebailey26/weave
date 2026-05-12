@@ -21,53 +21,120 @@
 .tries {
   padding: 5px;
 }
-.signInOverlay {
+.signInBanner {
   position: fixed;
-  inset: 0;
-  z-index: 1000;
+  z-index: 10050;
+  left: 50%;
+  /* Safe area + a little clearance; mobile breakpoint adds extra for dynamic toolbars. */
+  bottom: max(14px, calc(10px + env(safe-area-inset-bottom, 0px)));
+  transform: translateX(-50%);
+  width: min(560px, calc(100% - 24px));
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  background: rgb(2 4 12 / 68%);
-  backdrop-filter: blur(4px);
+  align-items: stretch;
+  gap: 2px;
+  padding: 2px;
+  /* Fallbacks: tokens live on `.page`; keep the nudge readable regardless of ancestry. */
+  border-radius: var(--radius-md, 14px);
+  border: 1px solid var(--border-subtle, #d8d5cf);
+  background: var(--surface-1, #ffffff);
+  box-shadow: var(--shadow-soft, 0 10px 30px rgb(24 22 18 / 10%));
 }
 
-.signInPanel {
-  position: relative;
-  width: min(560px, 100%);
+@media (max-width: 600px) {
+  .signInBanner {
+    bottom: max(67px, calc(22px + env(safe-area-inset-bottom, 0px)));
+  }
 }
 
-.signInClose {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 1;
-  cursor: pointer;
-  font-size: 16px;
-  color: var(--text-secondary);
+@media (prefers-color-scheme: dark) {
+  .signInBanner {
+    border-color: var(--border-subtle, #34353a);
+    background: var(--surface-1, #1b1d21);
+    box-shadow: var(--shadow-soft, 0 10px 30px rgb(0 0 0 / 35%));
+  }
+}
+
+.signInBannerAction {
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  margin: 0;
+  padding: 10px 12px;
   border: 0;
+  border-radius: calc(var(--radius-md, 14px) - 2px);
   background: transparent;
-  border-radius: var(--radius-pill);
-  min-height: 34px;
-  min-width: 34px;
+  color: var(--text-secondary, #555c67);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.signInBannerAction:hover {
+  background: var(--surface-2, #f8f7f5);
+  color: var(--text-primary, #1f232b);
+}
+
+.signInBannerAction:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--focus-ring, rgb(138 122 101 / 35%));
+}
+
+.signInBannerDismiss {
+  flex: none;
+  appearance: none;
+  margin: 0;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--text-tertiary, #79808a);
+  border: 0;
+  border-radius: calc(var(--radius-md, 14px) - 2px);
+  min-height: 40px;
+  min-width: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
   transition:
     color 0.15s ease,
     background 0.15s ease,
     box-shadow 0.15s ease;
 }
 
-.signInClose:hover {
-  color: var(--text-primary);
-  background: var(--button-secondary-hover);
+.signInBannerDismiss:hover {
+  color: var(--text-primary, #1f232b);
+  background: var(--button-secondary-hover, #ebe7e1);
 }
 
-.signInClose:focus-visible {
+.signInBannerDismiss:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  box-shadow: 0 0 0 3px var(--focus-ring, rgb(138 122 101 / 35%));
+}
+
+@media (prefers-color-scheme: dark) {
+  .signInBannerAction {
+    color: var(--text-secondary, #b6b2ab);
+  }
+
+  .signInBannerAction:hover {
+    background: var(--surface-2, #22242a);
+    color: var(--text-primary, #f1f0ed);
+  }
+
+  .signInBannerDismiss {
+    color: var(--text-tertiary, #918d86);
+  }
+
+  .signInBannerDismiss:hover {
+    color: var(--text-primary, #f1f0ed);
+    background: var(--button-secondary-hover, #2b2d32);
+  }
 }
 
 .boardEndgame {
