@@ -254,8 +254,8 @@
   }
 
   .timeline {
-    padding: 6px;
-    gap: 4px;
+    padding: 8px;
+    gap: 6px;
   }
 
   .timelineTitle {
@@ -263,7 +263,7 @@
   }
 
   .slotList {
-    gap: 3px;
+    gap: 5px;
   }
 
   .tries {
@@ -277,8 +277,8 @@
   }
 
   .timeline {
-    padding: 4px;
-    gap: 3px;
+    padding: 6px;
+    gap: 5px;
   }
 
   .timelineTitle {
@@ -286,7 +286,7 @@
   }
 
   .slotList {
-    gap: 3px;
+    gap: 5px;
   }
 }
 

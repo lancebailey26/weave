@@ -332,8 +332,8 @@
   }
 
   .eventCardWithDate {
-    padding: 3px 8px;
-    gap: 3px;
+    padding: 5px 8px;
+    gap: 5px;
   }
 
   .eventTitle {
@@ -371,8 +371,8 @@
   }
 
   .eventCardWithDate {
-    padding: 2px 6px;
-    gap: 2px;
+    padding: 4px 6px;
+    gap: 4px;
   }
 
   .eventTitle {

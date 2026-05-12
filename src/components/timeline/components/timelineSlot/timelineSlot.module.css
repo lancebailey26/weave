@@ -150,9 +150,9 @@
   .slot {
     gap: 6px;
     padding: 3px;
-    height: clamp(62px, 9svh, 84px);
-    min-height: clamp(62px, 9svh, 84px);
-    max-height: clamp(62px, 9svh, 84px);
+    height: clamp(68px, 10svh, 92px);
+    min-height: clamp(68px, 10svh, 92px);
+    max-height: clamp(68px, 10svh, 92px);
   }
 
   .slotMeta {
@@ -179,9 +179,9 @@
   .slot {
     gap: 5px;
     padding: 2px;
-    height: clamp(54px, 7.8svh, 72px);
-    min-height: clamp(54px, 7.8svh, 72px);
-    max-height: clamp(54px, 7.8svh, 72px);
+    height: clamp(58px, 8.5svh, 80px);
+    min-height: clamp(58px, 8.5svh, 80px);
+    max-height: clamp(58px, 8.5svh, 80px);
   }
 
   .slotMeta {
