@@ -148,11 +148,11 @@
 
 @media (max-width: 600px) {
   .slot {
-    gap: 7px;
+    gap: 6px;
     padding: 3px;
-    height: clamp(72px, 12svh, 96px);
-    min-height: clamp(72px, 12svh, 96px);
-    max-height: clamp(72px, 12svh, 96px);
+    height: clamp(62px, 9svh, 84px);
+    min-height: clamp(62px, 9svh, 84px);
+    max-height: clamp(62px, 9svh, 84px);
   }
 
   .slotMeta {
@@ -179,9 +179,9 @@
   .slot {
     gap: 5px;
     padding: 2px;
-    height: clamp(64px, 10.5svh, 84px);
-    min-height: clamp(64px, 10.5svh, 84px);
-    max-height: clamp(64px, 10.5svh, 84px);
+    height: clamp(54px, 7.8svh, 72px);
+    min-height: clamp(54px, 7.8svh, 72px);
+    max-height: clamp(54px, 7.8svh, 72px);
   }
 
   .slotMeta {

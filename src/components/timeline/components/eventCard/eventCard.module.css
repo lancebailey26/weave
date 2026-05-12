@@ -333,12 +333,12 @@
 
   .eventCardWithDate {
     padding: 3px 8px;
-    gap: 4px;
+    gap: 3px;
   }
 
   .eventTitle {
     font-size: 11px;
-    line-height: 1.2;
+    line-height: 1.18;
   }
 
   .eventCategory {
@@ -348,18 +348,13 @@
 
   .eventDescription {
     font-size: 10px;
-    line-height: 1.28;
+    line-height: 1.22;
     padding-inline-start: 8px;
-  }
-
-  .eventCardScroll .eventDescription {
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
   }
 
   .eventDate {
     font-size: 10px;
-    line-height: 1.15;
+    line-height: 1.12;
     opacity: 0.68;
   }
 }
@@ -377,27 +372,22 @@
 
   .eventCardWithDate {
     padding: 2px 6px;
-    gap: 3px;
+    gap: 2px;
   }
 
   .eventTitle {
     font-size: 10px;
-    line-height: 1.15;
+    line-height: 1.12;
   }
 
   .eventDescription,
   .eventDate {
     font-size: 9px;
-    line-height: 1.22;
+    line-height: 1.18;
   }
 
   .eventDescription {
     padding-inline-start: 6px;
-  }
-
-  .eventCardScroll .eventDescription {
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
   }
 }
 

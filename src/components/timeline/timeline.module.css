@@ -43,7 +43,7 @@
 
 @media (max-width: 600px) {
   .signInBanner {
-    bottom: max(67px, calc(22px + env(safe-area-inset-bottom, 0px)));
+    bottom: max(24px, calc(22px + env(safe-area-inset-bottom, 0px)));
   }
 }
 
@@ -286,7 +286,7 @@
   }
 
   .slotList {
-    gap: 2px;
+    gap: 3px;
   }
 }
 
