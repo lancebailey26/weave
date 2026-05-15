@@ -26,6 +26,19 @@ import { useLocale, useTranslations } from "next-intl";
 
 const MAX_AVATAR_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type FeedbackFormData = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+const EMPTY_FEEDBACK_FORM: FeedbackFormData = {
+  name: "",
+  email: "",
+  message: "",
+};
 
 export default function AppHeader() {
   const t = useTranslations("appHeader");
@@ -39,6 +52,9 @@ export default function AppHeader() {
   const [isLocaleMenuOpen, setIsLocaleMenuOpen] = useState(false);
   const [isRemoveAvatarConfirmOpen, setIsRemoveAvatarConfirmOpen] = useState(false);
   const [isRemovingAvatar, setIsRemovingAvatar] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [feedbackForm, setFeedbackForm] = useState<FeedbackFormData>(EMPTY_FEEDBACK_FORM);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
   function closeMenu() {
     if (!menuRef.current) return;
@@ -138,6 +154,61 @@ export default function AppHeader() {
     uploader.click();
   }
 
+  function openFeedback() {
+    const primaryEmail = user?.primaryEmailAddress?.emailAddress ?? "";
+    setFeedbackForm({
+      name: user?.fullName ?? user?.username ?? "",
+      email: primaryEmail,
+      message: "",
+    });
+    closeMenu();
+    setIsFeedbackOpen(true);
+  }
+
+  function closeFeedback() {
+    if (isSubmittingFeedback) return;
+    setIsFeedbackOpen(false);
+    setFeedbackForm(EMPTY_FEEDBACK_FORM);
+  }
+
+  async function handleSubmitFeedback(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!feedbackForm.name || !feedbackForm.email || !feedbackForm.message) {
+      showNotification(t("notifications.feedbackRequired"));
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(feedbackForm.email)) {
+      showNotification(t("notifications.feedbackInvalidEmail"));
+      return;
+    }
+
+    setIsSubmittingFeedback(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(feedbackForm),
+      });
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || t("notifications.feedbackFailed"));
+      }
+
+      setIsFeedbackOpen(false);
+      setFeedbackForm(EMPTY_FEEDBACK_FORM);
+      showNotification(t("notifications.feedbackSent"));
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : t("notifications.feedbackFailed");
+      showNotification(message);
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  }
+
   async function handleRemoveAvatar() {
     try {
       setIsRemovingAvatar(true);
@@ -210,6 +281,84 @@ export default function AppHeader() {
 
   return (
     <>
+      {isFeedbackOpen && (
+        <Splash
+          onClose={closeFeedback}
+          screen={
+            <form className={styles.feedbackForm} onSubmit={handleSubmitFeedback}>
+              <h2 className={styles.feedbackTitle}>{t("feedback.title")}</h2>
+              <p className={styles.feedbackDescription}>{t("feedback.description")}</p>
+              <div className={styles.feedbackField}>
+                <label className={styles.feedbackLabel} htmlFor="feedback-name">
+                  {t("feedback.name")}
+                </label>
+                <input
+                  id="feedback-name"
+                  name="name"
+                  type="text"
+                  className={styles.feedbackInput}
+                  value={feedbackForm.name}
+                  onChange={(event) =>
+                    setFeedbackForm((prev) => ({ ...prev, name: event.target.value }))
+                  }
+                  disabled={isSubmittingFeedback}
+                  required
+                />
+              </div>
+              <div className={styles.feedbackField}>
+                <label className={styles.feedbackLabel} htmlFor="feedback-email">
+                  {t("feedback.email")}
+                </label>
+                <input
+                  id="feedback-email"
+                  name="email"
+                  type="email"
+                  className={styles.feedbackInput}
+                  value={feedbackForm.email}
+                  onChange={(event) =>
+                    setFeedbackForm((prev) => ({ ...prev, email: event.target.value }))
+                  }
+                  disabled={isSubmittingFeedback}
+                  required
+                />
+              </div>
+              <div className={styles.feedbackField}>
+                <label className={styles.feedbackLabel} htmlFor="feedback-message">
+                  {t("feedback.message")}
+                </label>
+                <textarea
+                  id="feedback-message"
+                  name="message"
+                  className={styles.feedbackTextarea}
+                  value={feedbackForm.message}
+                  onChange={(event) =>
+                    setFeedbackForm((prev) => ({ ...prev, message: event.target.value }))
+                  }
+                  disabled={isSubmittingFeedback}
+                  required
+                />
+              </div>
+              <div className={styles.feedbackActions}>
+                <button
+                  type="button"
+                  className={styles.feedbackCancel}
+                  onClick={closeFeedback}
+                  disabled={isSubmittingFeedback}
+                >
+                  {t("feedback.cancel")}
+                </button>
+                <button
+                  type="submit"
+                  className={styles.feedbackSubmit}
+                  disabled={isSubmittingFeedback}
+                >
+                  {isSubmittingFeedback ? t("feedback.sending") : t("feedback.submit")}
+                </button>
+              </div>
+            </form>
+          }
+        />
+      )}
       {isRemoveAvatarConfirmOpen && (
         <Splash
           onClose={() => {
@@ -391,6 +540,13 @@ export default function AppHeader() {
               >
                 {t("menu.signOut")}
               </button>
+              <button
+                type="button"
+                className={styles.menuItem}
+                onClick={openFeedback}
+              >
+                {t("menu.feedback")}
+              </button>
               <Link
                 href="/legal"
                 className={styles.menuItem}
@@ -412,6 +568,13 @@ export default function AppHeader() {
                 }}
               >
                 {t("menu.signIn")}
+              </button>
+              <button
+                type="button"
+                className={styles.menuItem}
+                onClick={openFeedback}
+              >
+                {t("menu.feedback")}
               </button>
               <Link
                 href="/legal"

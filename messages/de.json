@@ -52,7 +52,18 @@
       "changeAvatar": "Avatar ändern",
       "removeAvatar": "Avatar entfernen",
       "signOut": "Abmelden",
-      "signIn": "Anmelden"
+      "signIn": "Anmelden",
+      "feedback": "Feedback senden"
+    },
+    "feedback": {
+      "title": "Feedback senden",
+      "description": "Fehlermeldungen, Ideen und Fragen sind willkommen.",
+      "name": "Name",
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "cancel": "Abbrechen",
+      "submit": "Senden",
+      "sending": "Wird gesendet..."
     },
     "locales": {
       "en": "Englisch",
@@ -74,6 +85,10 @@
       "avatarUploadFailed": "Avatar kann gerade nicht hochgeladen werden.",
       "avatarRemoveFailed": "Avatar kann gerade nicht entfernt werden.",
       "localeSaveFailed": "Spracheinstellung kann gerade nicht gespeichert werden.",
+      "feedbackRequired": "Bitte fülle alle Felder aus.",
+      "feedbackInvalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
+      "feedbackSent": "Danke für dein Feedback!",
+      "feedbackFailed": "Feedback kann gerade nicht gesendet werden.",
       "dismiss": "Benachrichtigung schließen"
     }
   },

@@ -52,7 +52,18 @@
       "changeAvatar": "Cambiar avatar",
       "removeAvatar": "Quitar avatar",
       "signOut": "Cerrar sesión",
-      "signIn": "Iniciar sesión"
+      "signIn": "Iniciar sesión",
+      "feedback": "Enviar comentarios"
+    },
+    "feedback": {
+      "title": "Enviar comentarios",
+      "description": "Informes de errores, ideas y preguntas son bienvenidos.",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "message": "Mensaje",
+      "cancel": "Cancelar",
+      "submit": "Enviar",
+      "sending": "Enviando..."
     },
     "locales": {
       "en": "Inglés",
@@ -74,6 +85,10 @@
       "avatarUploadFailed": "No se puede subir el avatar en este momento.",
       "avatarRemoveFailed": "No se puede quitar el avatar en este momento.",
       "localeSaveFailed": "No se puede guardar el idioma en este momento.",
+      "feedbackRequired": "Completa todos los campos.",
+      "feedbackInvalidEmail": "Introduce un correo electrónico válido.",
+      "feedbackSent": "¡Gracias por tus comentarios!",
+      "feedbackFailed": "No se pueden enviar comentarios en este momento.",
       "dismiss": "Cerrar notificación"
     }
   },

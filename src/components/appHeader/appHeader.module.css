@@ -271,6 +271,93 @@
   cursor: not-allowed;
 }
 
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: min(360px, calc(100vw - 48px));
+}
+
+.feedbackTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.feedbackDescription {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.feedbackField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feedbackLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.feedbackInput,
+.feedbackTextarea {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--button-secondary-border);
+  background: var(--surface-2);
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 9px 10px;
+  font-family: inherit;
+}
+
+.feedbackTextarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.feedbackInput:focus-visible,
+.feedbackTextarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.feedbackActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.feedbackCancel,
+.feedbackSubmit {
+  appearance: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--button-secondary-border);
+  background: var(--surface-2);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+.feedbackSubmit {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--surface-1);
+}
+
+.feedbackCancel:disabled,
+.feedbackSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .notification {
   position: fixed;
   left: 50%;

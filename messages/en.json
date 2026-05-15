@@ -52,7 +52,18 @@
       "changeAvatar": "Change Avatar",
       "removeAvatar": "Remove Avatar",
       "signOut": "Sign out",
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "feedback": "Send feedback"
+    },
+    "feedback": {
+      "title": "Send feedback",
+      "description": "Bug reports, ideas, and questions are welcome.",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "cancel": "Cancel",
+      "submit": "Send",
+      "sending": "Sending..."
     },
     "locales": {
       "en": "English",
@@ -74,6 +85,10 @@
       "avatarUploadFailed": "Unable to upload avatar right now.",
       "avatarRemoveFailed": "Unable to remove avatar right now.",
       "localeSaveFailed": "Unable to save language setting right now.",
+      "feedbackRequired": "Please fill in all fields.",
+      "feedbackInvalidEmail": "Please enter a valid email address.",
+      "feedbackSent": "Thanks for your feedback!",
+      "feedbackFailed": "Unable to send feedback right now.",
       "dismiss": "Dismiss notification"
     }
   },

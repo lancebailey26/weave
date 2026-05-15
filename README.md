@@ -29,11 +29,13 @@ CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 SKYFORGE_DB_MONGODB_URI=
 WEAVE_READ_WRITE_TOKEN=
+RESEND_API_KEY=
 ```
 
 Notes:
 
 - `WEAVE_READ_WRITE_TOKEN` is used for avatar upload/delete via Vercel Blob.
+- `RESEND_API_KEY` is used for the in-app feedback form (`/api/contact`).
 - `SKYFORGE_DB_MONGODB_URI` is the primary database connection string.
 - There is fallback support for `MONGODB_URI`, but the project is wired for `SKYFORGE_DB_MONGODB_URI`.
 
